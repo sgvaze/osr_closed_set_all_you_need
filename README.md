@@ -1,5 +1,5 @@
 # Open-Set Recognition: A Good Closed-Set Classifier is All You Need
-Code for our paper: "Open-Set Recognition: A Good Closed-Set Classifier is All You Need"
+Code for our paper: [Open-Set Recognition: A Good Closed-Set Classifier is All You Need](https://arxiv.org/abs/2110.06207)
 
 > **Abstract:** *The ability to identify whether or not a test sample belongs to one of the semantic classes in a classifier's training set is critical to
 practical deployment of the model. This task is termed open-set recognition (OSR) and has received significant attention in recent years. In this paper, we 
@@ -26,10 +26,10 @@ A number of datasets are used in this work, many of them can be downloaded direc
  [CUB](http://www.vision.caltech.edu/visipedia/CUB-200.html),
 [FGVC-Aircraft](https://www.robots.ox.ac.uk/~vgg/data/fgvc-aircraft/)
 
-**FGVC Open-set Splits**:
+**Open-set Splits**:
 
-For the proposed FGVC open-set benchmarks, the directory ```data/open_set_splits``` contains the proposed class splits
- as ```.pkl``` files. The files also include information on which
+For the proposed open-set benchmarks, the directory ```data/open_set_splits``` contains the proposed class splits
+ as ```.pkl``` files. For the FGVC datasets, the files also include information on which
  open-set classes are most similar to which closed-set classes.
 
 ### Config
@@ -40,7 +40,7 @@ Set ```SAVE_DIR``` (logfile destination) and ```PYTHON``` (path to python interp
 
 ### Run
 
-To recreate results on TinyImageNet (Table 2). Our runs give us 82.60% AUROC for both
+To recreate results on TinyImageNet (Table 1). Our runs give us 82.60% AUROC for both
 (ARPL + CS)+ and Cross-Entropy+.
 
 ```
@@ -95,7 +95,7 @@ If you use this code in your research, please consider citing our paper:
 @article{vaze21openset,
     author  = {Sagar Vaze and Kai Han and Andrea Vedaldi and Andrew Zisserman},
     title   = {Open-Set Recognition: A Good Closed-Set Classifier is All You Need},
-    journal = {arXiv preprint},
+    journal = {arXiv preprint arXiv:2110.06207},
     year    = {2021},
   }
 ```
