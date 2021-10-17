@@ -274,7 +274,7 @@ if __name__ == '__main__':
             args.feat_dim = 128 if args.model == 'classifier32' else 2048
 
         args.train_classes, args.open_set_classes = get_class_splits(args.dataset, args.split_idx,
-                                                                     cifar_plus_n=args.out_num, args=args)
+                                                                     cifar_plus_n=args.out_num)
 
         img_size = args.image_size
 
