@@ -26,7 +26,7 @@ tin_val_root_dir = '/work/sagar/datasets/tinyimagenet/tiny-imagenet-200/val/imag
 # ----------------------
 # FGVC OSR SPLITS
 # ----------------------
-osr_split_dir = '/users/sagar/open_world_learning/open_set_recognition/data/open_set_splits'
+osr_split_dir = '/users/sagar/open_world_learning/osr_closed_set_all_you_need/data/open_set_splits'
 
 # ----------------------
 # PRETRAINED RESNET50 MODEL PATHS (For FGVC experiments)

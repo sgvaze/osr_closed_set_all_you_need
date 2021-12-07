@@ -1,6 +1,6 @@
 #!/bin/bash
 PYTHON='/users/sagar/miniconda3/envs/open_world_prototype/bin/python'
-export CUDA_VISIBLE_DEVICES=1
+export CUDA_VISIBLE_DEVICES=3
 
 hostname
 nvidia-smi
@@ -11,7 +11,7 @@ SEED=0
 
 # SPECIFY PARAMS
 DATASET='cub'
-LOSS='ARPLoss'
+LOSS='Softmax'
 
 if [ $LOSS = "Softmax" ]; then
    AUG_M=30

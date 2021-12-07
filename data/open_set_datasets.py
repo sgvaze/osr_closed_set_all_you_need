@@ -80,7 +80,7 @@ def get_class_splits(dataset, split_idx=0, cifar_plus_n=10):
 
     elif dataset == 'cub':
 
-        osr_path = os.path.join(osr_split_dir, 'cub_osr_splits_final.pkl')
+        osr_path = os.path.join(osr_split_dir, 'cub_osr_splits.pkl')
         with open(osr_path, 'rb') as f:
             class_info = pickle.load(f)
 
@@ -91,7 +91,7 @@ def get_class_splits(dataset, split_idx=0, cifar_plus_n=10):
 
     elif dataset == 'aircraft':
 
-        osr_path = os.path.join(osr_split_dir, 'aircraft_osr_splits_final.pkl')
+        osr_path = os.path.join(osr_split_dir, 'aircraft_osr_splits.pkl')
         with open(osr_path, 'rb') as f:
             class_info = pickle.load(f)
 

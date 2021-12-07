@@ -4,6 +4,7 @@ from utils.utils import strip_state_dict
 import torch
 import argparse
 import numpy as np
+import pickle
 
 from torch.utils.data import DataLoader
 from data.open_set_datasets import get_datasets
@@ -12,7 +13,7 @@ import sys, os
 
 from utils.utils import str2bool
 from methods.ARPL.arpl_models.wrapper_classes import TimmResNetWrapper
-from config import save_dir, dir_path,root_model_path,root_criterion_path
+from config import save_dir, osr_split_dir, root_model_path, root_criterion_path
 
 class EnsembleModelEntropy(ModelTemplate):
 
@@ -62,10 +63,8 @@ def load_models(path, args):
     if args.loss == 'ARPLoss':
 
         model = get_model(args, wrapper_class=None, evaluate=True)
-        # state_dict_list = [torch.load(p) for p in path]
-        # model.load_state_dict(state_dict_list)
-        print(path)
-        model.load_state_dict(torch.load(path))
+        state_dict_list = [torch.load(p) for p in path]
+        model.load_state_dict(state_dict_list)
 
     else:
 
@@ -118,7 +117,6 @@ if __name__ == '__main__':
     parser.add_argument('--dataset', type=str, default='cub')
     parser.add_argument('--transform', type=str, default='rand-augment')
     parser.add_argument('--exp_id', type=str, default='(18.05.2021_|_59.007)')
-    parser.add_argument('--fine_grained_split_name', type=str, default='osr_splits')
 
     # Train params
     args = parser.parse_args()
@@ -141,8 +139,10 @@ if __name__ == '__main__':
     all_preds = []
 
     # Get OSR splits
-    osr_path = os.path.join(dir_path, '{}_osr_splits{}.pkl'.format(args.dataset, args.fine_grained_split_name))
-    class_info = torch.load(osr_path)
+    osr_path = os.path.join(osr_split_dir, '{}_osr_splits.pkl'.format(args.dataset))
+
+    with open(osr_path, 'rb') as f:
+        class_info = pickle.load(f)
 
     train_classes = class_info['known_classes']
     open_set_classes = class_info['unknown_classes']
@@ -172,8 +172,7 @@ if __name__ == '__main__':
         # ------------------------
         # MODEL
         # ------------------------
-        print('Loading arpl_models...')
-
+        print('Loading model...')
         all_models = [load_models(path=all_paths_combined[0], args=args)]
 
         model = EnsembleModelEntropy(all_models=all_models, mode=args.osr_mode, num_classes=len(args.train_classes))
