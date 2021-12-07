@@ -56,7 +56,7 @@ for the proposed FGVC benchmarks.
 
 **Cross-Entropy optimal hyper-parameters:**
 
-| **Dataset**       | **Image Size** | **Learning Rate** | **RandAug M** | **RandAug N** | **Label Smoothing** | **Batch Size** |
+| **Dataset**       | **Image Size** | **Learning Rate** | **RandAug N** | **RandAug M** | **Label Smoothing** | **Batch Size** |
 |---------------|------------|---------------|-----------|-----------|-----------------|------------|
 | MNIST         | 32         | 0.1           | 1         | 8         | 0.0             | 128        |
 | SVHN          | 32         | 0.1           | 1         | 18        | 0.0             | 128        |
