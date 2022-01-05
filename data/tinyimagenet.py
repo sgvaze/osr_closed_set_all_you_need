@@ -9,6 +9,9 @@ from config import tin_train_root_dir, tin_val_root_dir
 def create_val_img_folder(root):
     '''
     This method is responsible for separating validation images into separate sub folders
+    Run this before running TinyImageNet experiments
+
+    :param root: Root dir for TinyImageNet, e.g /work/sagar/datasets/tinyimagenet/tiny-imagenet-200/
     '''
     dataset_dir = os.path.join(root)
     val_dir = os.path.join(dataset_dir, 'val')

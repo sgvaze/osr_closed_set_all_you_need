@@ -26,6 +26,9 @@ A number of datasets are used in this work, many of them can be downloaded direc
  [CUB](http://www.vision.caltech.edu/visipedia/CUB-200.html),
 [FGVC-Aircraft](https://www.robots.ox.ac.uk/~vgg/data/fgvc-aircraft/)
 
+For TinyImageNet, you also need to run `create_val_img_folder` in `data/tinyimagenet.py` to create
+a directory with the test data.
+
 **Open-set Splits**:
 
 For the proposed open-set benchmarks, the directory ```data/open_set_splits``` contains the proposed class splits
@@ -46,6 +49,10 @@ To recreate results on TinyImageNet (Table 1). Our runs give us 82.60% AUROC for
 ```
 bash bash_scripts/osr_train_tinyimagenet.sh
 ```
+
+**Evaluating models**: Results can be scraped from the log files using `utils/logfile_parser.py` or models can be evaluated from
+scratch by editing `exp_ids` in `methods/tests/openset_test.py`. The experiment IDs are printed in the `Namespace`
+at the top of each log file.
 
 ### Optimal Hyper-parameters:
 
