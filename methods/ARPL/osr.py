@@ -16,7 +16,7 @@ from methods.ARPL.arpl_models.wrapper_classes import TimmResNetWrapper
 from methods.ARPL.arpl_utils import save_networks
 from methods.ARPL.core import train, train_cs, test
 
-from utils.utils import init_experiment, seed_torch, str2bool
+from utils.utils import init_experiment, seed_torch, str2bool, get_default_hyperparameters
 from utils.schedulers import get_scheduler
 from data.open_set_datasets import get_class_splits, get_datasets
 from models.model_utils import get_model
@@ -63,6 +63,8 @@ parser.add_argument('--rand_aug_n', type=int, default=None)
 parser.add_argument('--num_workers', default=4, type=int)
 parser.add_argument('--split_train_val', default=False, type=str2bool,
                         help='Subsample training set to create validation set', metavar='BOOL')
+parser.add_argument('--use_default_parameters', default=False, type=str2bool,
+                    help='Set to True to use optimized hyper-parameters from paper', metavar='BOOL')
 parser.add_argument('--device', default='cuda:0', type=str, help='Which GPU to use')
 parser.add_argument('--gpus', default=[0], type=int, nargs='+',
                         help='device ids assignment (e.g 0 1 2 3)')
@@ -81,6 +83,7 @@ parser.add_argument('--train_feat_extractor', default=True, type=str2bool,
 parser.add_argument('--split_idx', default=0, type=int, help='0-4 OSR splits for each dataset')
 parser.add_argument('--use_softmax_in_eval', default=False, type=str2bool,
                         help='Do we use softmax or logits for evaluation', metavar='BOOL')
+
 
 def get_optimizer(args, params_list):
 
@@ -228,9 +231,14 @@ def main_worker(options, args):
         if options['eval_freq'] > 0 and (epoch+1) % options['eval_freq'] == 0 or (epoch+1) == options['max_epoch']:
             print("==> Test", options['loss'])
             results = test(net, criterion, testloader, outloader, epoch=epoch, **options)
-            print("Acc (%): {:.3f}\t AUROC (%): {:.3f}\t OSCR (%): {:.3f}\t".format(results['ACC'], results['AUROC'], results['OSCR']))
+            print("Epoch {}: Acc (%): {:.3f}\t AUROC (%): {:.3f}\t OSCR (%): {:.3f}\t".format(epoch,
+                                                                                              results['ACC'],
+                                                                                              results['AUROC'],
+                                                                                              results['OSCR']))
             if epoch % options['checkpt_freq'] == 0 or epoch == options['max_epoch'] - 1:
-                save_networks(net, model_path, file_name.split('.')[0]+'_{}'.format(epoch), options['loss'], criterion=criterion)
+                save_networks(net, model_path, file_name.split('.')[0]+'_{}'.format(epoch),
+                              options['loss'],
+                              criterion=criterion)
 
             # ----------------
             # LOG
@@ -260,11 +268,18 @@ def main_worker(options, args):
 if __name__ == '__main__':
 
     args = parser.parse_args()
+
+    # ------------------------
+    # Update parameters with default hyperparameters if specified
+    # ------------------------
+    if args.use_default_parameters:
+        args = get_default_hyperparameters(args)
+
     args.exp_root = exp_root
     args.epochs = args.max_epoch
     img_size = args.image_size
     results = dict()
-    
+
     for i in range(1):
 
         # ------------------------

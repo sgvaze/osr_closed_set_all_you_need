@@ -5,12 +5,11 @@ import numpy as np
 import inspect
 
 from torch.utils.tensorboard import SummaryWriter
-from tensorboard.backend.event_processing.event_accumulator import EventAccumulator
-
-from typing import Optional
-from torch.optim.optimizer import Optimizer
-
+import pandas as pd
 from datetime import datetime
+import os
+
+from config import project_root_dir
 
 class AverageMeter(object):
     """Computes and stores the average and current value"""
@@ -42,6 +41,7 @@ def seed_torch(seed=1029):
     torch.cuda.manual_seed_all(seed) # if you are using multi-GPU.
     torch.backends.cudnn.benchmark = False
     torch.backends.cudnn.deterministic = True
+
 
 def strip_state_dict(state_dict, strip_key='module.'):
 
@@ -116,8 +116,11 @@ def init_experiment(args, runner_name=None):
 
     return args
 
+
 def accuracy(output, target, topk=(1,)):
+
     """Computes the accuracy over the k top predictions for the specified values of k"""
+
     with torch.no_grad():
         maxk = max(topk)
         batch_size = target.size(0)
@@ -141,90 +144,60 @@ def str2bool(v):
     else:
         raise argparse.ArgumentTypeError('Boolean value expected.')
 
-class ClassificationPredSaver(object):
 
-    def __init__(self, length, save_path=None):
-
-        if save_path is not None:
-
-            # Remove filetype from save_path
-            save_path = save_path.split('.')[0]
-            self.save_path = save_path
-
-        self.length = length
-
-        self.all_preds = None
-        self.all_labels = None
-
-        self.running_start_idx = 0
-
-    def update(self, preds, labels=None):
-
-        # Expect preds in shape B x C
-
-        if torch.is_tensor(preds):
-            preds = preds.detach().cpu().numpy()
-
-        b, c = preds.shape
-
-        if self.all_preds is None:
-            self.all_preds = np.zeros((self.length, c))
-
-        self.all_preds[self.running_start_idx: self.running_start_idx + b] = preds
-
-        if labels is not None:
-            if torch.is_tensor(labels):
-                labels = labels.detach().cpu().numpy()
-
-            if self.all_labels is None:
-                self.all_labels = np.zeros((self.length,))
-
-            self.all_labels[self.running_start_idx: self.running_start_idx + b] = labels
-
-        # Maintain running index on dataset being evaluated
-        self.running_start_idx += b
-
-    def save(self):
-
-        # Softmax over preds
-        preds = torch.from_numpy(self.all_preds)
-        preds = torch.nn.Softmax(dim=-1)(preds)
-        self.all_preds = preds.numpy()
-
-        pred_path = self.save_path + '.pth'
-        print(f'Saving all predictions to {pred_path}')
-
-        torch.save(self.all_preds, pred_path)
-
-        if self.all_labels is not None:
-
-            # Evaluate
-            self.evaluate()
-            torch.save(self.all_labels, self.save_path + '_labels.pth')
-
-    def evaluate(self):
-
-        topk = [1, 5, 10]
-        topk = [k for k in topk if k < self.all_preds.shape[-1]]
-        acc = accuracy(torch.from_numpy(self.all_preds), torch.from_numpy(self.all_labels), topk=topk)
-
-        for k, a in zip(topk, acc):
-            print(f'Top{k} Acc: {a.item()}')
-
-def get_acc_auroc_curves(logdir):
+def get_default_hyperparameters(args):
 
     """
-    :param logdir: Path to logs: E.g '/work/sagar/open_set_recognition/methods/ARPL/log/(12.03.2021_|_32.570)/'
-    :return:
+    Adjusts args to match parameters used in paper: https://arxiv.org/abs/2110.06207
     """
 
-    event_acc = EventAccumulator(logdir)
-    event_acc.Reload()
+    hyperparameter_path = os.path.join(project_root_dir, 'utils/paper_hyperparameters.csv')
+    df = pd.read_csv(hyperparameter_path)
 
-    # Only gets scalars
-    log_info = {}
-    for tag in event_acc.Tags()['scalars']:
+    df = df.loc[df['Loss'] == args.loss]
+    hyperparams = df.loc[df['Dataset'] == args.dataset].values[0][2:]
 
-        log_info[tag] = np.array([[x.step, x.value] for x in event_acc.scalars._buckets[tag].items])
+    # -----------------
+    # DATASET / LOSS specific hyperparams
+    # -----------------
+    args.image_size, args.lr, args.rand_aug_n, args.rand_aug_m, args.label_smoothing, args.batch_size = hyperparams
 
-    return log_info
+    if args.dataset in ('cub', 'aircraft', 'scars', 'imagenet'):
+
+        args.model = 'timm_resnet50_pretrained'
+        args.resnet50_pretrain = 'places_moco'
+        args.feat_dim = 2048
+
+    else:
+
+        args.model = 'classifier32'
+        args.feat_dim = 128
+
+    # -----------------
+    # Other hyperparameters
+    # -----------------
+    args.seed = 0
+    args.max_epoch = 600
+    args.transform = 'rand-augment'
+
+    args.scheduler = 'cosine_warm_restarts_warmup'
+    args.num_restarts = 2
+    args.weight_decay = 1e-4
+
+    return args
+
+
+if __name__ == '__main__':
+
+    import argparse
+
+    parser = argparse.ArgumentParser("Training")
+
+    # Dataset
+    parser.add_argument('--dataset', type=str, default='cifar-10-10', help="")
+    parser.add_argument('--loss', type=str, default='Softmax', help='For cifar-10-100')
+
+    args = parser.parse_args()
+
+    x = get_default_hyperparameters(args)
+    debug = 0

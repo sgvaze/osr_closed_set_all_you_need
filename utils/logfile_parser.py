@@ -111,7 +111,7 @@ save_dir = '/work/sagar/open_set_recognition/sweep_summary_files/ensemble_pkls'
 base_path = '/work/sagar/open_set_recognition/slurm_outputs/myLog-{}.out'
 # base_path = '/work/sagar/open_set_recognition/dev_outputs/logfile_{}.out'
 
-all_paths = [base_path.format(i) for i in [325905]]
+all_paths = [base_path.format(i) for i in [401156]]
 # all_paths = [base_path.format(i) for i in [507, 508, 509, 510, 511]]
 
 data = parse_multiple_files(all_paths, rx_dict, verbose=True, save=False, save_name='test.pkl')

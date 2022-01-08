@@ -1,4 +1,9 @@
 # ----------------------
+# PROJECT ROOT DIR
+# ----------------------
+project_root_dir = '/users/sagar/open_world_learning/osr_closed_set_all_you_need/'
+
+# ----------------------
 # EXPERIMENT SAVE PATHS
 # ----------------------
 exp_root = '/work/sagar/open_set_recognition'        # directory to store experiment output (checkpoints, logs, etc)

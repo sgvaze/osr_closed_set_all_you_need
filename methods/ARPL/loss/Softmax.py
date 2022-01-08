@@ -11,7 +11,10 @@ class Softmax(nn.Module):
         self.label_smoothing = options['label_smoothing']
 
     def forward(self, x, y, labels=None):
+
+        # logits = y
         logits = F.softmax(y, dim=1)
+
         if labels is None: return logits, 0
 
         if not self.label_smoothing:

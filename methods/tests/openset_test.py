@@ -76,13 +76,16 @@ def load_models(path, args):
 
     return model
 
+
 # Disable
 def blockPrint():
     sys.stdout = open(os.devnull, 'w')
 
+
 # Restore
 def enablePrint():
     sys.stdout = sys.__stdout__
+
 
 if __name__ == '__main__':
 
@@ -116,21 +119,16 @@ if __name__ == '__main__':
     args.save_dir = save_dir
     device = torch.device('cuda:0')
 
-    # exp_ids = [
-    #     '(11.04.2021_|_16.699)',
-    #     '(11.04.2021_|_27.623)',
-    #     '(11.04.2021_|_25.507)',
-    #     '(11.04.2021_|_17.466)',
-    #     '(11.04.2021_|_07.958)'
-    # ]
+    exp_ids = ['(23.08.2021_|_34.361)', '(24.08.2021_|_39.364)', '(25.08.2021_|_26.769)',
+               '(25.08.2021_|_10.047)', '(26.08.2021_|_24.029)']
 
-    exp_ids = [
-        '(19.08.2021_|_26.227)',
-        '(20.08.2021_|_34.790)',
-        '(20.08.2021_|_45.082)',
-        '(20.08.2021_|_51.491)',
-        '(21.08.2021_|_42.871)'
-    ]
+    # exp_ids = [
+    #     '(18.08.2021_|_16.512)',
+    #     '(18.08.2021_|_03.287)',
+    #     '(19.08.2021_|_36.440)',
+    #     '(19.08.2021_|_41.390)',
+    #     '(19.08.2021_|_59.474)'
+    # ]
 
     if args.cs:
         dataset_cs = args.dataset + 'cs'
@@ -149,7 +147,8 @@ if __name__ == '__main__':
         # DATASETS
         # ------------------------
 
-        args.train_classes, args.open_set_classes = get_class_splits(args.dataset, split_idx=split_idx)
+        args.train_classes, args.open_set_classes = get_class_splits(args.dataset, split_idx=split_idx,
+                                                                     cifar_plus_n=50)
 
         datasets = get_datasets(args.dataset, transform=args.transform, train_classes=args.train_classes,
                                 image_size=args.image_size, balance_open_set_eval=False,
@@ -171,7 +170,8 @@ if __name__ == '__main__':
 
         all_models = [load_models(path=all_paths_combined[split_idx], args=args)]
 
-        model = EnsembleModelEntropy(all_models=all_models, mode=args.osr_mode, num_classes=len(args.train_classes))
+        model = EnsembleModelEntropy(all_models=all_models, mode=args.osr_mode,
+                                     num_classes=len(args.train_classes), use_softmax=False)
         model.eval()
         model = model.to(device)
 
@@ -189,4 +189,4 @@ if __name__ == '__main__':
     all_preds = np.array(all_preds)
     means = np.mean(all_preds, axis=0)
     stds = np.std(all_preds, axis=0)
-    print(f'Mean: {means[0]:.4f} pm {stds[0]:.4f} | AUROC: {means[-2]:.4f} pm {stds[-2]:.4f} | AUPR: {means[-1]:.4f} pm {stds[-1]:.4f}')
+    print(f'Mean: {means[0]:.4f} pm {stds[0]:.4f} | AUROC: {means[2]:.4f} pm {stds[2]:.4f} | AUPR: {means[3]:.4f} pm {stds[3]:.4f}')
