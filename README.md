@@ -57,7 +57,7 @@ bash bash_scripts/osr_train.sh
 **Evaluating models**: Models can be evaluated by editing `exp_ids` in `methods/tests/openset_test.py`. The experiment IDs are printed in the `Namespace`
 at the top of each log file.
 
-**Pre-trained models**: Pre-trained weights for the Cross-Entropy baseline on the five TinyImageNet splits can be found in `pretrained_weights`. The models should achieve an average of 84.2% accuracy on the test-sets of the closed-set classes (across the five splits) and an average 83.0% AUROC on the open-set detection task.
+**Pre-trained models**: Pre-trained weights for the Cross-Entropy baseline on the five TinyImageNet splits can be found in `pretrained_weights/`. The models should achieve an average of 84.2% accuracy on the test-sets of the closed-set classes (across the five splits) and an average 83.0% AUROC on the open-set detection task. Models are all [VGG32](https://github.com/sgvaze/osr_closed_set_all_you_need/blob/main/models/classifier32.py) and use [this](https://github.com/sgvaze/osr_closed_set_all_you_need/blob/154360f0c6e6bab018d3db7765d092bddbd17b26/data/augmentations/__init__.py#L114) image normalization at test-time with `image_size=64`.
 
 ### Optimal Hyper-parameters:
 
