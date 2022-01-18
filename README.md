@@ -9,6 +9,11 @@ practical deployment of the model. This task is termed open-set recognition (OSR
 
 ## Running
 
+### :boom: Updates
+
+* Included pre-trained weights for the Cross-Entropy baseline on TinyImageNet in `pretrained_weights`.
+* Included `bash_scripts/osr_train.sh` to train models on all splits for a given dataset using the tuned hyper-parameters from the paper.
+
 ### Dependencies
 
 ```
@@ -41,18 +46,18 @@ Set paths to datasets and pre-trained models (for fine-grained experiments) in `
 
 Set ```SAVE_DIR``` (logfile destination) and ```PYTHON``` (path to python interpreter) in ```bash_scripts``` scripts.
 
-### Run
+### Scripts
 
-To recreate results on TinyImageNet (Table 1). Our runs give us 82.60% AUROC for both
-(ARPL + CS)+ and Cross-Entropy+.
+**Train models**: To train models on all splits on a specified dataset (using tuned hyper-parameters from the paper), run:
 
 ```
-bash bash_scripts/osr_train_tinyimagenet.sh
+bash bash_scripts/osr_train.sh
 ```
 
-**Evaluating models**: Results can be scraped from the log files using `utils/logfile_parser.py` or models can be evaluated from
-scratch by editing `exp_ids` in `methods/tests/openset_test.py`. The experiment IDs are printed in the `Namespace`
+**Evaluating models**: Models can be evaluated by editing `exp_ids` in `methods/tests/openset_test.py`. The experiment IDs are printed in the `Namespace`
 at the top of each log file.
+
+**Pre-trained models**: Pre-trained weights for the Cross-Entropy baseline on the five TinyImageNet splits can be found in `pretrained_weights`. The models should achieve an average of 84.2% accuracy on the test-sets of the closed-set classes (across the five splits) and an average 83.0% AUROC on the open-set detection task.
 
 ### Optimal Hyper-parameters:
 
