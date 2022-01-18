@@ -273,6 +273,7 @@ if __name__ == '__main__':
     # Update parameters with default hyperparameters if specified
     # ------------------------
     if args.use_default_parameters:
+        print('NOTE: Using default hyper-parameters...')
         args = get_default_hyperparameters(args)
 
     args.exp_root = exp_root

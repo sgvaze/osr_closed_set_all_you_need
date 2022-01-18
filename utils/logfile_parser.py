@@ -63,10 +63,10 @@ def parse_arpl_out_file(path, rx_dict, root_dir=save_root_dir, save_name='test.p
         if line.find('Finished') != -1:
             line_ = file[i - 1]
 
-            perfs = rx_dict['performance'].findall(line_)[:3]
-            model['Acc'] = perfs[0]
-            model['AUROC'] = perfs[1]
-            model['OSCR'] = perfs[2]
+            perfs = rx_dict['performance'].findall(line_)[:4]
+            model['Acc'] = perfs[1]
+            model['AUROC'] = perfs[2]
+            model['OSCR'] = perfs[3]
             model['runtime'] = rx_dict['runtime'].search(line).group(1)
 
             models.append(model)
@@ -111,7 +111,8 @@ save_dir = '/work/sagar/open_set_recognition/sweep_summary_files/ensemble_pkls'
 base_path = '/work/sagar/open_set_recognition/slurm_outputs/myLog-{}.out'
 # base_path = '/work/sagar/open_set_recognition/dev_outputs/logfile_{}.out'
 
-all_paths = [base_path.format(i) for i in [401156]]
+# all_paths = [base_path.format(i) for i in ['401331_3']]
+all_paths = [base_path.format(i) for i in ['{}_{}'.format(401331, j) for j in [4]]]
 # all_paths = [base_path.format(i) for i in [507, 508, 509, 510, 511]]
 
 data = parse_multiple_files(all_paths, rx_dict, verbose=True, save=False, save_name='test.pkl')

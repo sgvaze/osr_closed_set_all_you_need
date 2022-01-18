@@ -12,14 +12,15 @@ class Softmax(nn.Module):
 
     def forward(self, x, y, labels=None):
 
-        # logits = y
-        logits = F.softmax(y, dim=1)
+        # 'y' is logits of the classifier
+        logits = y
 
-        if labels is None: return logits, 0
+        if labels is None:
+            return logits, 0
 
         if not self.label_smoothing:
-            loss = F.cross_entropy(y / self.temp, labels)
+            loss = F.cross_entropy(logits / self.temp, labels)
         else:
-            loss = smooth_cross_entropy_loss(y / self.temp, labels=labels, smoothing=self.label_smoothing, dim=-1)
+            loss = smooth_cross_entropy_loss(logits / self.temp, labels=labels, smoothing=self.label_smoothing, dim=-1)
 
         return logits, loss

@@ -102,10 +102,10 @@ if __name__ == '__main__':
 
     # Model
     parser.add_argument('--model', type=str, default='classifier32')
-    parser.add_argument('--loss', type=str, default='ARPLoss')
+    parser.add_argument('--loss', type=str, default='Softmax')
     parser.add_argument('--feat_dim', default=128, type=int)
     parser.add_argument('--max_epoch', default=599, type=int)
-    parser.add_argument('--cs', default=True, type=str2bool)
+    parser.add_argument('--cs', default=False, type=str2bool)
 
     # Data params
     parser.add_argument('--batch_size', default=128, type=int)
@@ -114,13 +114,18 @@ if __name__ == '__main__':
     parser.add_argument('--dataset', type=str, default='tinyimagenet')
     parser.add_argument('--transform', type=str, default='rand-augment')
 
+    # Eval args
+    parser.add_argument('--use_balanced_eval', default=False, type=str2bool)
+    parser.add_argument('--use_softmax', default=False, type=str2bool)
+
     # Train params
     args = parser.parse_args()
     args.save_dir = save_dir
     device = torch.device('cuda:0')
 
-    exp_ids = ['(23.08.2021_|_34.361)', '(24.08.2021_|_39.364)', '(25.08.2021_|_26.769)',
-               '(25.08.2021_|_10.047)', '(26.08.2021_|_24.029)']
+    exp_ids = ['(09.01.2022_|_51.594)', '(09.01.2022_|_06.790)', '(10.01.2022_|_45.371)',
+               '(10.01.2022_|_41.928)', '(10.01.2022_|_49.201)']
+
 
     # exp_ids = [
     #     '(18.08.2021_|_16.512)',
@@ -136,6 +141,13 @@ if __name__ == '__main__':
         dataset_cs = args.dataset
 
     # Define paths
+    # root_model_path = '/work/sagar/open_set_recognition/methods/ARPL/log/{}/arpl_models/' \
+    #                   'cifar-10-100/checkpoints/cifar-10-100_10_cs_599_ARPLoss.pth'
+    # root_criterion_path = '/work/sagar/open_set_recognition/methods/ARPL/log/{}/arpl_models/' \
+    #                   'cifar-10-100/checkpoints/cifar-10-100_10_cs_599_ARPLoss_criterion.pth'
+    # all_paths_combined = [[x.format(i)
+    #                        for x in (root_model_path, root_criterion_path)] for i in exp_ids]
+
     all_paths_combined = [[x.format(i, args.dataset, dataset_cs, args.max_epoch, args.loss)
                            for x in (root_model_path, root_criterion_path)] for i in exp_ids]
 
@@ -151,7 +163,7 @@ if __name__ == '__main__':
                                                                      cifar_plus_n=50)
 
         datasets = get_datasets(args.dataset, transform=args.transform, train_classes=args.train_classes,
-                                image_size=args.image_size, balance_open_set_eval=False,
+                                image_size=args.image_size, balance_open_set_eval=args.use_balanced_eval,
                                 split_train_val=False, open_set_classes=args.open_set_classes)
 
         # ------------------------
@@ -166,12 +178,12 @@ if __name__ == '__main__':
         # ------------------------
         # MODEL
         # ------------------------
-        print('Loading arpl_models...')
+        print('Loading models...')
 
         all_models = [load_models(path=all_paths_combined[split_idx], args=args)]
 
         model = EnsembleModelEntropy(all_models=all_models, mode=args.osr_mode,
-                                     num_classes=len(args.train_classes), use_softmax=False)
+                                     num_classes=len(args.train_classes), use_softmax=args.use_softmax)
         model.eval()
         model = model.to(device)
 

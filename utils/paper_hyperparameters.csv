@@ -8,8 +8,8 @@ Softmax,cub,448,0.001,2,30,0.3,32
 Softmax,aircraft,448,0.001,2,15,0.2,32
 ARPLoss,mnist,32,0.1,1,8,0,128
 ARPLoss,svhn,32,0.1,1,18,0,128
-ARPLoss,cifar-10-10,32,0.1,1,6,0,128
+ARPLoss,cifar-10-10,32,0.1,1,15,0,128
 ARPLoss,cifar-10-100,32,0.1,1,6,0,128
-ARPLoss,tinyimagenet,64,0.01,1,9,0.9,128
-ARPLoss,cub,448,0.001,2,30,0.3,32
-ARPLoss,aircraft,448,0.001,2,15,0.2,32
+ARPLoss,tinyimagenet,64,0.001,1,9,0.9,128
+ARPLoss,cub,448,0.001,2,30,0.2,32
+ARPLoss,aircraft,448,0.001,2,18,0.1,32

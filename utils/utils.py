@@ -195,9 +195,12 @@ if __name__ == '__main__':
 
     # Dataset
     parser.add_argument('--dataset', type=str, default='cifar-10-10', help="")
-    parser.add_argument('--loss', type=str, default='Softmax', help='For cifar-10-100')
+    parser.add_argument('--loss', type=str, default='ARPLoss', help='For cifar-10-100')
 
     args = parser.parse_args()
 
-    x = get_default_hyperparameters(args)
-    debug = 0
+    for dataset in ('mnist', 'svhn', 'cifar-10-10', 'cifar-10-100', 'tinyimagenet'):
+        args.dataset = dataset
+        args = get_default_hyperparameters(args)
+        print(f'{dataset}')
+        print(args)
