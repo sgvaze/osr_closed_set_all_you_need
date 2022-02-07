@@ -27,9 +27,11 @@ meta_default_path = "/work/sagar/datasets/stanford_car/devkit/cars_{}.mat"      
 svhn_root = '/work/sagar/datasets/svhn'                                                 # SVHN
 tin_train_root_dir = '/work/sagar/datasets/tinyimagenet/tiny-imagenet-200/train'        # TinyImageNet Train
 tin_val_root_dir = '/work/sagar/datasets/tinyimagenet/tiny-imagenet-200/val/images'     # TinyImageNet Val
+imagenet_root = '/scratch/shared/beegfs/shared-datasets/ImageNet/ILSVRC12'              # ImageNet-1K
+imagenet21k_root = '/work/sagar/datasets/imagenet21k_resized_new'                       # ImageNet-21K-P
 
 # ----------------------
-# FGVC OSR SPLITS
+# FGVC / IMAGENET OSR SPLITS
 # ----------------------
 osr_split_dir = '/users/sagar/open_world_learning/osr_closed_set_all_you_need/data/open_set_splits'
 
