@@ -1,5 +1,5 @@
-# Open-Set Recognition: A Good Closed-Set Classifier is All You Need
-Code for our paper: [Open-Set Recognition: A Good Closed-Set Classifier is All You Need?](https://arxiv.org/abs/2110.06207)
+# Open-Set Recognition: a Good Closed-Set Classifier is All You Need?
+Code for our paper: [Open-Set Recognition: a Good Closed-Set Classifier is All You Need?](https://arxiv.org/abs/2110.06207)
 
 > **Abstract:** *The ability to identify whether or not a test sample belongs to one of the semantic classes
 > in a classifier's training set is critical to practical deployment of the model. 
@@ -17,7 +17,7 @@ Code for our paper: [Open-Set Recognition: A Good Closed-Set Classifier is All Y
 > detecting semantic novelty, as opposed to low-level distributional shifts as tackled by neighbouring machine learning fields.
 > On this new evaluation, we again demonstrate that there is negligible difference between the strong baseline and the existing state-of-the-art.*
 
-![image](assets/main_image.png)
+![image](assets/main_image.jpg)
 
 ## Running
 
@@ -118,12 +118,11 @@ This repo also contains other useful utilities, including:
 
 If you use this code in your research, please consider citing our paper:
 ```
-@article{vaze21openset,
-    author  = {Sagar Vaze and Kai Han and Andrea Vedaldi and Andrew Zisserman},
-    title   = {Open-Set Recognition: A Good Closed-Set Classifier is All You Need},
-    journal = {arXiv preprint arXiv:2110.06207},
-    year    = {2021},
-  }
+@InProceedings{vaze2022openset,
+               title={Open-Set Recognition: a Good Closed-Set Classifier is All You Need?},
+               author={Sagar Vaze and Kai Han and Andrea Vedaldi and Andrew Zisserman},
+               booktitle={International Conference on Learning Representations},
+               year={2022}}
 ```
 
 Furthermore, please also consider citing
