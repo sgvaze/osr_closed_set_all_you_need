@@ -17,14 +17,15 @@ Code for our paper: [Open-Set Recognition: a Good Closed-Set Classifier is All Y
 > detecting semantic novelty, as opposed to low-level distributional shifts as tackled by neighbouring machine learning fields.
 > On this new evaluation, we again demonstrate that there is negligible difference between the strong baseline and the existing state-of-the-art.*
 
-![image](assets/main_image.jpg)
-
-## Running
+![image](assets/main_fig.png)
 
 ### :boom: Updates
 
+* Added Stanford Cars splits from the Semantic Shift Benchmark
 * Included pre-trained weights for the Cross-Entropy baseline on TinyImageNet in `pretrained_weights`.
 * Included `bash_scripts/osr_train.sh` to train models on all splits for a given dataset using the tuned hyper-parameters from the paper.
+
+## Running
 
 ### Dependencies
 
