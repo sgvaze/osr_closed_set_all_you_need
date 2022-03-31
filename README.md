@@ -1,9 +1,21 @@
 # Open-Set Recognition: A Good Closed-Set Classifier is All You Need
-Code for our paper: [Open-Set Recognition: A Good Closed-Set Classifier is All You Need](https://arxiv.org/abs/2110.06207)
+Code for our paper: [Open-Set Recognition: A Good Closed-Set Classifier is All You Need?](https://arxiv.org/abs/2110.06207)
 
-> **Abstract:** *The ability to identify whether or not a test sample belongs to one of the semantic classes in a classifier's training set is critical to
-practical deployment of the model. This task is termed open-set recognition (OSR) and has received significant attention in recent years. In this paper, we 
->first demonstrate that the ability of a classifier to make the 'none-of-above' decision is highly correlated with its accuracy on the closed-set classes. We find that this relationship holds across loss objectives and architectures, and further demonstrate the trend both on the standard OSR benchmarks as well as on a large-scale ImageNet evaluation. Second, we use this correlation to boost the performance of the cross-entropy OSR 'baseline' by improving its closed-set accuracy, and with this strong baseline achieve a new state-of-the-art on the most challenging OSR benchmark. Similarly, we boost the performance of the existing state-of-the-art method by improving its closed-set accuracy, but this does not surpass the strong baseline on the most challenging dataset. Our third contribution is to reappraise the datasets used for OSR evaluation, and construct new benchmarks which better respect the task of detecting semantic novelty, as opposed to low-level distributional shifts as tackled by neighbouring machine learning fields. In this new setting, we again demonstrate that there is negligible difference between the strong baseline and the existing state-of-the-art.*
+> **Abstract:** *The ability to identify whether or not a test sample belongs to one of the semantic classes
+> in a classifier's training set is critical to practical deployment of the model. 
+> This task is termed open-set recognition (OSR) and has received significant attention in recent years.
+> In this paper, we first demonstrate that the ability of a classifier to make the 'none-of-above'
+> decision is highly correlated with its accuracy on the closed-set classes. 
+> We find that this relationship holds across loss objectives and architectures, 
+> and further demonstrate the trend both on the standard OSR benchmarks as well as on a 
+> large-scale ImageNet evaluation. Second, we use this correlation to boost the performance 
+> of the maximum softmax probability OSR 'baseline' by improving its closed-set accuracy, 
+> and with this strong baseline achieve state-of-the-art on a number of OSR benchmarks. 
+> Similarly, we boost the performance of the existing state-of-the-art method by 
+> improving its closed-set accuracy, but the resulting discrepancy with the strong baseline is marginal.
+> Our third contribution is to present the 'Semantic Shift Benchmark' (SSB), which better respects the task of
+> detecting semantic novelty, as opposed to low-level distributional shifts as tackled by neighbouring machine learning fields.
+> On this new evaluation, we again demonstrate that there is negligible difference between the strong baseline and the existing state-of-the-art.*
 
 ![image](assets/main_image.png)
 
@@ -27,9 +39,11 @@ A number of datasets are used in this work, many of them can be downloaded direc
 [SVHN](https://pytorch.org/vision/stable/datasets.html),
 [CIFAR-10/100](https://pytorch.org/vision/stable/datasets.html),
 [TinyImageNet](https://github.com/rmccorm4/Tiny-Imagenet-200)
-* Proposed Benchmarks: [ImageNet-21K-P](https://github.com/Alibaba-MIIL/ImageNet21K),
+* Semantic Shift Benchmark: [ImageNet-21K-P](https://github.com/Alibaba-MIIL/ImageNet21K),
  [CUB](http://www.vision.caltech.edu/visipedia/CUB-200.html),
-[FGVC-Aircraft](https://www.robots.ox.ac.uk/~vgg/data/fgvc-aircraft/)
+[Stanford Cars](https://ai.stanford.edu/~jkrause/cars/car_dataset.html),
+[FGVC-Aircraft](https://www.robots.ox.ac.uk/~vgg/data/fgvc-aircraft/),
+
 
 For TinyImageNet, you also need to run `create_val_img_folder` in `data/tinyimagenet.py` to create
 a directory with the test data.

@@ -102,7 +102,7 @@ if __name__ == '__main__':
     parser.add_argument('--seed', default=0, type=int)
 
     # Model
-    parser.add_argument('--model', type=str, default='moco_resnet50')
+    parser.add_argument('--model', type=str, default='timm_resnet50_pretrained')
     parser.add_argument('--loss', type=str, default='Softmax')
     parser.add_argument('--feat_dim', default=2048, type=int)
     parser.add_argument('--max_epoch', default=599, type=int)
@@ -114,9 +114,9 @@ if __name__ == '__main__':
     parser.add_argument('--batch_size', default=32, type=int)
     parser.add_argument('--image_size', default=448, type=int)
     parser.add_argument('--num_workers', default=8, type=int)
-    parser.add_argument('--dataset', type=str, default='cub')
+    parser.add_argument('--dataset', type=str, default='scars')
     parser.add_argument('--transform', type=str, default='rand-augment')
-    parser.add_argument('--exp_id', type=str, default='(18.05.2021_|_59.007)')
+    parser.add_argument('--exp_id', type=str, default='(19.05.2021_|_30.963)')
 
     # Train params
     args = parser.parse_args()
@@ -148,13 +148,15 @@ if __name__ == '__main__':
     open_set_classes = class_info['unknown_classes']
 
 
-    for difficulty in ('Easy', 'Medium', 'Hard'):
+    for difficulty in ('Easy', 'Hard'):
 
         # ------------------------
         # DATASETS
         # ------------------------
-
         args.train_classes, args.open_set_classes = train_classes, open_set_classes[difficulty]
+
+        if difficulty == 'Hard' and args.dataset != 'imagenet':
+            args.open_set_classes += open_set_classes['Medium']
 
         datasets = get_datasets(args.dataset, transform=args.transform, train_classes=args.train_classes,
                                 image_size=args.image_size, balance_open_set_eval=False,
