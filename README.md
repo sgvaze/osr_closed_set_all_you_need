@@ -43,7 +43,7 @@ A number of datasets are used in this work, many of them can be downloaded direc
 * Semantic Shift Benchmark: [ImageNet-21K-P](https://github.com/Alibaba-MIIL/ImageNet21K),
  [CUB](http://www.vision.caltech.edu/visipedia/CUB-200.html),
 [Stanford Cars](https://ai.stanford.edu/~jkrause/cars/car_dataset.html),
-[FGVC-Aircraft](https://www.robots.ox.ac.uk/~vgg/data/fgvc-aircraft/),
+[FGVC-Aircraft](https://www.robots.ox.ac.uk/~vgg/data/fgvc-aircraft/)
 
 
 For TinyImageNet, you also need to run `create_val_img_folder` in `data/tinyimagenet.py` to create
