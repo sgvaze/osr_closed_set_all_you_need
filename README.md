@@ -41,7 +41,7 @@ A number of datasets are used in this work, many of them can be downloaded direc
 [CIFAR-10/100](https://pytorch.org/vision/stable/datasets.html),
 [TinyImageNet](https://github.com/rmccorm4/Tiny-Imagenet-200)
 * Semantic Shift Benchmark: [ImageNet-21K-P](https://github.com/Alibaba-MIIL/ImageNet21K),
- [CUB](http://www.vision.caltech.edu/visipedia/CUB-200.html),
+ [CUB](https://drive.google.com/drive/folders/1kFzIqZL_pEBVR7Ca_8IKibfWoeZc3GT1),
 [Stanford Cars](https://ai.stanford.edu/~jkrause/cars/car_dataset.html),
 [FGVC-Aircraft](https://www.robots.ox.ac.uk/~vgg/data/fgvc-aircraft/)
 
