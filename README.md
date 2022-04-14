@@ -1,21 +1,7 @@
 # Open-Set Recognition: a Good Closed-Set Classifier is All You Need?
-Code for our paper: [Open-Set Recognition: a Good Closed-Set Classifier is All You Need?](https://arxiv.org/abs/2110.06207)
+Code for our paper: [Open-Set Recognition: a Good Closed-Set Classifier is All You Need?](https://www.robots.ox.ac.uk/~vgg/research/osr/)
 
-> **Abstract:** *The ability to identify whether or not a test sample belongs to one of the semantic classes
-> in a classifier's training set is critical to practical deployment of the model. 
-> This task is termed open-set recognition (OSR) and has received significant attention in recent years.
-> In this paper, we first demonstrate that the ability of a classifier to make the 'none-of-above'
-> decision is highly correlated with its accuracy on the closed-set classes. 
-> We find that this relationship holds across loss objectives and architectures, 
-> and further demonstrate the trend both on the standard OSR benchmarks as well as on a 
-> large-scale ImageNet evaluation. Second, we use this correlation to boost the performance 
-> of the maximum softmax probability OSR 'baseline' by improving its closed-set accuracy, 
-> and with this strong baseline achieve state-of-the-art on a number of OSR benchmarks. 
-> Similarly, we boost the performance of the existing state-of-the-art method by 
-> improving its closed-set accuracy, but the resulting discrepancy with the strong baseline is marginal.
-> Our third contribution is to present the 'Semantic Shift Benchmark' (SSB), which better respects the task of
-> detecting semantic novelty, as opposed to low-level distributional shifts as tackled by neighbouring machine learning fields.
-> On this new evaluation, we again demonstrate that there is negligible difference between the strong baseline and the existing state-of-the-art.*
+> **Abstract:** *The ability to identify whether or not a test sample belongs to one of the semantic classes in a classifier's training set is critical to practical deployment of the model. This task is termed open-set recognition (OSR) and has received significant attention in recent years. In this paper, we first demonstrate that the ability of a classifier to make the 'none-of-above' decision is highly correlated with its accuracy on the closed-set classes. We find that this relationship holds across loss objectives and architectures, and further demonstrate the trend both on the standard OSR benchmarks as well as on a large-scale ImageNet evaluation. Second, we use this correlation to boost the performance of a maximum logit score OSR 'baseline' by improving its closed-set accuracy, and with this strong baseline achieve state-of-the-art on a number of OSR benchmarks. Similarly, we boost the performance of the existing state-of-the-art method by improving its closed-set accuracy, but the resulting discrepancy with the strong baseline is marginal. Our third contribution is to present the 'Semantic Shift Benchmark' (SSB), which better respects the task of detecting semantic novelty, in contrast to other forms of distribution shift also considered in related sub-fields, such as out-of-distribution detection. On this new evaluation, we again demonstrate that there is negligible difference between the strong baseline and the existing state-of-the-art.*
 
 ![image](assets/main_fig.png)
 
