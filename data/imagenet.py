@@ -9,8 +9,8 @@ from config import imagenet_root
 from config import imagenet21k_root
 from config import osr_split_dir
 
-osr_split_save_dir = os.path.join(osr_split_dir, 'imagenet_osr_splits.pkl')
-
+osr_split_save_dir = os.path.join(osr_split_dir, 'imagenet_osr_splits_winter21.pkl')
+print(f'Loading unseen class splits from {osr_split_save_dir}')
 
 class ImageNetBase(torchvision.datasets.ImageFolder):
 
@@ -45,51 +45,26 @@ def pad_to_longest(list1, list2):
     return list1, list2
 
 
-def get_imagenet_osr_class_splits(imagenet21k_class_to_idx, num_imagenet21k_classes=1000,
-                                  imagenet_root=imagenet_root, imagenet21k_root=imagenet21k_root,
-                                  osr_split='random', precomputed_split_dir=osr_split_save_dir):
+def get_imagenet_osr_class_splits(imagenet21k_dataset, osr_split,
+                                  precomputed_split_dir=osr_split_save_dir):
 
-    if osr_split == 'random':
 
-        """
-        Find which classes in ImageNet21k are not in Imagenet1k, and select some of these classes as open-set classes
-        """
-        imagenet1k_classes = os.listdir(os.path.join(imagenet_root, 'val'))
-        imagenet21k_classes = os.listdir(os.path.join(imagenet21k_root, 'val'))
+    split_to_key = {
+        'Easy': 'easy_i21k_classes',
+        'Hard': 'hard_i21k_classes'
+    }
 
-        # Find which classes in I21K are not in I1K
-        disjoint_imagenet21k_classes = set(imagenet21k_classes) - set(imagenet1k_classes)
-        disjoint_imagenet21k_classes = list(disjoint_imagenet21k_classes)
+    # Load splits
+    with open(precomputed_split_dir, 'rb') as handle:
+        precomputed_info = pickle.load(handle)
 
-        # Randomly select a number of OSR classes from them (must be less than ~10k as only ~11k valid classes in I21K)
-        np.random.seed(0)
-        selected_osr_classes = np.random.choice(disjoint_imagenet21k_classes, replace=False, size=(num_imagenet21k_classes,))
+    osr_wnids = precomputed_info[split_to_key[osr_split]]
 
-        # Convert class names to class indices
-        selected_osr_classes_class_indices = [imagenet21k_class_to_idx[cls_name] for cls_name in selected_osr_classes]
+    osr_wnids = set(osr_wnids)
+    selected_osr_classes_class_indices =\
+        [i for i, x in enumerate(imagenet21k_dataset.classes) if x in osr_wnids]
 
-        return selected_osr_classes_class_indices
-
-    elif osr_split in ('Easy', 'Hard'):
-
-        split_to_key = {
-            'Easy': 'easy_i21k_classes',
-            'Hard': 'hard_i21k_classes'
-        }
-
-        # Load splits
-        with open(precomputed_split_dir, 'rb') as handle:
-            precomputed_info = pickle.load(handle)
-
-        osr_wnids = precomputed_info[split_to_key[osr_split]]
-        selected_osr_classes_class_indices = \
-            [imagenet21k_class_to_idx[cls_name] for cls_name in osr_wnids]
-
-        return selected_osr_classes_class_indices
-
-    else:
-
-        raise NotImplementedError
+    return selected_osr_classes_class_indices
 
 
 def subsample_dataset(dataset, idxs):
@@ -180,11 +155,9 @@ def get_image_net_datasets(train_transform, test_transform, train_classes=range(
     print('Loading ImageNet21K Val...')
     # Get testset for unknown classes
     test_dataset_unknown = ImageNetBase(root=os.path.join(imagenet21k_root, 'val'), transform=test_transform)
-    # Select which classes are open set
-    open_set_classes = get_imagenet_osr_class_splits(test_dataset_unknown.class_to_idx,
-                                                     num_imagenet21k_classes=num_open_set_classes,
-                                                     osr_split=osr_split)
 
+    # Select which classes are open set
+    open_set_classes = get_imagenet_osr_class_splits(imagenet21k_dataset=test_dataset_unknown, osr_split=osr_split)
     test_dataset_unknown = subsample_classes(test_dataset_unknown, include_classes=open_set_classes)
 
     if balance_open_set_eval:

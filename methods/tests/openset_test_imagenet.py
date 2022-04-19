@@ -49,7 +49,6 @@ if __name__ == '__main__':
     parser.add_argument('--save_dir', type=str, default='/work/sagar/open_set_recognition/methods/baseline/'
                                                         'ensemble_entropy_test')
     parser.add_argument('--device', default='None', type=str, help='Which GPU to use')
-    parser.add_argument('--osr_mode', default='max_softmax', type=str, help='{entropy, max_softmax}')
     parser.add_argument('--seed', default=0, type=int)
 
     # Data params
@@ -94,7 +93,7 @@ if __name__ == '__main__':
     # WHICH MODELS TO TEST
     # ------------------------
     # Models from TIMM
-    all_models = ['resnet18', 'resnet50']   #['resnet18', 'resnet34', 'resnet50']
+    all_models = ['resnet50']       # ['resnet18', 'resnet34', 'resnet50']
 
     # Models from the PyTorch library
     # torch_models = [
